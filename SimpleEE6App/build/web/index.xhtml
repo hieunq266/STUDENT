@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Facelet Title</title>
+        <link rel="stylesheet" href="styles.css"/>
+        <script type="text/javascript" src="action.js"></script>
+    </h:head>
+    <h:body>
+        <f:view>
+            <h:form>
+                <!-- HEADER -->
+                <div class="header">
+                    <div class="logo">
+                        <h1><h:outputText value="Student Management System"/></h1>
+                    </div>
+                </div>
+
+                <!-- STUDENT LIST -->
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                        <th class="text-left" scope="col">Id</th>
+                        <th class="text-left" scope="col">Hoten</th>
+                        <th class="text-left" scope="col">Ngaysinh</th>
+                        <th class="text-left" scope="col">Khoa</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ui:repeat value="#{studentView.students}" var="item">
+                            <tr onclick="getDetail(this)">                                              
+                                <td class="text-left">
+                                    <h:commandLink class="clickable-row" value="#{item.id}" 
+                                                action="#{studentView.getStudentDetail(item.id)}">
+                                        <f:ajax render="@form"/>
+                                    </h:commandLink>
+                                </td>
+                                <td class="text-left">#{item.hoten}</td>
+                                <td class="text-left">
+                                    <h:outputText value="#{item.ngaysinh}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+7"/>
+                                    </h:outputText>
+                                </td>
+                                <td class="text-left">#{item.khoa}</td>
+                            </tr>
+                        </ui:repeat>
+                    </tbody>
+                </table>
+                
+                <!-- DETAIL PROFILE -->
+                <div  class="profile-sidebar">
+                    <!-- AVATAR -->
+                    <div class="profile-userpic">
+                        <img src="avatar.png" class="img-responsive" alt="">
+                        </img>
+                    </div>
+                    
+                    <!-- NAME -->
+                    <div class="profile-usertitle">
+                        <div class="profile-usertitle-name">
+                                #{studentView.detail.hoten}
+                        </div>
+                        <div id="detail"></div>
+                    </div>
+
+                    <!-- DETAIL INFO -->
+                    <div class="profile-detail">
+                        <table id="detail">                           
+                            <tr>
+                                <th>MSSV</th>
+                                <td>: #{studentView.detail.id}</td>
+                            </tr>
+                            <tr>
+                                <th>Ngay sinh</th>
+                                <td>: 
+                                    <h:outputText value="#{studentView.detail.ngaysinh}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+7"/>
+                                    </h:outputText>
+                                </td>
+                            </tr>                          
+                            <tr>
+                                <th>Khoa</th>
+                                <td>: #{studentView.detail.khoa}</td>
+                            </tr>    
+                            <tr>
+                                <th>SĐT</th>
+                                <td>: #{studentView.detail.sdt}</td>
+                            </tr>
+                            <tr>
+                                <th>Email</th>
+                                <td>: #{studentView.detail.email}</td>
+                            </tr>
+                            <tr>
+                                <th>Địa chỉ</th>
+                                <td>: #{studentView.detail.diachi}</td>
+                            </tr>                           
+                        </table>        
+                    </div>
+                </div>
+
+            </h:form>
+        </f:view>
+    </h:body>
+</html>
+
